@@ -7,7 +7,7 @@
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src https://qiolfspmmdjmavhbaiwm.supabase.co; form-action 'none'; base-uri 'none'">
   <title>Delete your Dwallet account</title>
   <link rel="stylesheet" href="style.css?v=11">
-  <script type="module" src="page.js?v=11"></script>
+  <script type="module" src="page.js?v=12"></script>
 </head>
 <body>
   <main>
@@ -41,6 +41,7 @@
     <section id="confirmation" hidden>
       <h2 data-copy="confirmTitle">Confirm account deletion</h2>
       <p id="account-email"></p>
+      <p class="hint" data-copy="localCopy">After deletion, open Dwallet on each device and connect to the internet. The app will ask whether to keep a separate local vault or delete that device’s copy.</p>
       <form id="delete-form">
         <label class="checkbox"><input type="checkbox" id="confirm" required><span data-copy="confirm">I understand that my cloud backups and account cannot be recovered.</span></label>
         <button class="danger" data-copy="delete">Permanently delete my account</button>

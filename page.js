@@ -19,7 +19,8 @@ const translations = {
     confirmTitle: "تأكيد حذف الحساب", confirm: "أفهم إن الحساب والنسخ السحابية لا يمكن استرجاعهم.", delete: "حذف حسابي نهائيًا", cancel: "إلغاء",
     working: "جارٍ التنفيذ…", signInError: "تعذر تسجيل الدخول. راجع البيانات وتأكد إن الحساب مفعّل، أو جرّب تسجيل الدخول من جديد.",
     deleteError: "لم يتأكد اكتمال حذف الحساب. جرّب مرة تانية. لو انتهت الجلسة، سجّل دخول من جديد.",
-    expired: "انتهت جلسة التحقق. سجّل الدخول من جديد.", done: "تم حذف حسابك وبياناته السحابية.",
+    expired: "انتهت جلسة التحقق. سجّل الدخول من جديد.", done: "تم حذف حسابك وبياناته السحابية. افتح Dwallet على كل جهاز ووصّله بالإنترنت لاختيار الاحتفاظ بخزنة محلية أو حذف نسخة الجهاز.",
+    localCopy: "بعد الحذف، افتح Dwallet على كل جهاز ووصّله بالإنترنت. التطبيق هيسألك تحتفظ بخزنة محلية منفصلة ولا تحذف نسخة الجهاز.",
   },
   it: {
     title: "Elimina il tuo account Dwallet", description: "L’eliminazione rimuove definitivamente l’account Dwallet, i backup sul cloud e le attività collegate. Gli elementi salvati sul dispositivo si gestiscono da quel dispositivo.",
@@ -38,7 +39,8 @@ const translations = {
     confirmTitle: "Conferma l’eliminazione", confirm: "Ho capito che l’account e i backup sul cloud non si possono recuperare.", delete: "Elimina definitivamente il mio account", cancel: "Annulla",
     working: "Operazione in corso…", signInError: "Impossibile accedere. Verifica i dati e che l’account sia confermato, oppure riprova.",
     deleteError: "Non è stato possibile confermare l’eliminazione. Riprova. Se la sessione è scaduta, accedi di nuovo.",
-    expired: "La verifica è scaduta. Accedi di nuovo.", done: "Il tuo account e i suoi dati sul cloud sono stati eliminati.",
+    expired: "La verifica è scaduta. Accedi di nuovo.", done: "Account e dati cloud eliminati. Apri Dwallet su ogni dispositivo connesso per scegliere se conservare una cassaforte locale o eliminare la copia.",
+    localCopy: "Dopo l’eliminazione, apri Dwallet su ogni dispositivo e collegalo a Internet. L’app ti chiederà se conservare una cassaforte locale separata o eliminare la copia sul dispositivo.",
   },
 };
 
@@ -48,7 +50,7 @@ Object.assign(copy, {
   signInError: "Could not sign in. Check your details and account confirmation, then try again.",
   deleteError: "Deletion could not be confirmed. Try again. If your session has expired, sign in again.",
   expired: "Your verification expired. Sign in again.",
-  done: "Your account and its cloud data were deleted.",
+  done: "Your account and its cloud data were deleted. Open Dwallet on each connected device to choose whether to keep a local vault or delete that device’s copy.",
   accountNotFoundTitle: "Account not found",
   accountNotFound: "This Google account isn’t registered with Dwallet. Choose the Google account you use in the app. Nothing has been deleted.",
   errorTitle: "Something went wrong", workingTitle: "Please wait", doneTitle: "Account deleted",
