@@ -7,7 +7,9 @@ const translations = {
     ownership: "تحقّق من حسابك", email: "البريد الإلكتروني", password: "كلمة سر Dwallet", continue: "متابعة",
     recovery: "اختار حساب Google المرتبط بـDwallet، أو ادخل ببريد Dwallet وكلمة السر.",
     google: "المتابعة باستخدام Google",
-    accountNotFound: "مفيش حساب Dwallet مرتبط بحساب Google ده. ما اتحذفش أي حساب.",
+    accountNotFoundTitle: "الحساب مش موجود",
+    accountNotFound: "حساب Google ده مش مسجّل في Dwallet. اختار حساب Google اللي بتستخدمه جوه التطبيق. ما اتحذفش أي حساب.",
+    errorTitle: "في مشكلة محتاجة مراجعة", workingTitle: "لحظة من فضلك", doneTitle: "تم حذف الحساب",
     confirmTitle: "تأكيد حذف الحساب", confirm: "أفهم إن الحساب والنسخ السحابية لا يمكن استرجاعهم.", delete: "حذف حسابي نهائيًا", cancel: "إلغاء",
     working: "جارٍ التنفيذ…", signInError: "تعذر تسجيل الدخول. راجع البيانات وتأكد إن الحساب مفعّل، أو جرّب تسجيل الدخول من جديد.",
     deleteError: "لم يتأكد اكتمال حذف الحساب. جرّب مرة تانية. لو انتهت الجلسة، سجّل دخول من جديد.",
@@ -18,7 +20,9 @@ const translations = {
     ownership: "Verifica il tuo account", email: "Indirizzo email", password: "Password di Dwallet", continue: "Continua",
     recovery: "Scegli l’account Google collegato a Dwallet o accedi con email e password di Dwallet.",
     google: "Continua con Google",
-    accountNotFound: "Nessun account Dwallet è collegato a questo account Google. Nessun account è stato eliminato.",
+    accountNotFoundTitle: "Account non trovato",
+    accountNotFound: "Questo account Google non è registrato su Dwallet. Scegli l’account Google che usi nell’app. Nessun account è stato eliminato.",
+    errorTitle: "Si è verificato un problema", workingTitle: "Attendi un momento", doneTitle: "Account eliminato",
     confirmTitle: "Conferma l’eliminazione", confirm: "Ho capito che l’account e i backup sul cloud non si possono recuperare.", delete: "Elimina definitivamente il mio account", cancel: "Annulla",
     working: "Operazione in corso…", signInError: "Impossibile accedere. Verifica i dati e che l’account sia confermato, oppure riprova.",
     deleteError: "Non è stato possibile confermare l’eliminazione. Riprova. Se la sessione è scaduta, accedi di nuovo.",
@@ -33,7 +37,9 @@ Object.assign(copy, {
   deleteError: "Deletion could not be confirmed. Try again. If your session has expired, sign in again.",
   expired: "Your verification expired. Sign in again.",
   done: "Your account and its cloud data were deleted.",
-  accountNotFound: "No Dwallet account is linked to this Google account. No account was deleted.",
+  accountNotFoundTitle: "Account not found",
+  accountNotFound: "This Google account isn’t registered with Dwallet. Choose the Google account you use in the app. Nothing has been deleted.",
+  errorTitle: "Something went wrong", workingTitle: "Please wait", doneTitle: "Account deleted",
 });
 
 let language = "en";
@@ -56,16 +62,29 @@ function localize(chosen) {
     node.textContent = translate(node.dataset.copy);
   });
   document.title = translate("title");
-  announce(status);
+  announce(status, { attention: false });
 }
 
 function translate(key) {
   return translations[language]?.[key] ?? copy[key];
 }
 
-function announce(key) {
+function announce(key, { attention = true } = {}) {
   status = key;
-  $("message").textContent = key ? translate(key) : "";
+  const message = $("message");
+  const kind = key === "working" ? "loading" : key === "done" ? "success" : "error";
+  message.hidden = !key;
+  message.dataset.kind = kind;
+  message.setAttribute("role", key && kind === "error" ? "alert" : "status");
+  message.setAttribute("aria-live", key && kind === "error" ? "assertive" : "polite");
+  $("message-icon").textContent = key ? (kind === "error" ? "!" : kind === "success" ? "✓" : "") : "";
+  const titleKey = key === "accountNotFound" ? "accountNotFoundTitle" : key === "working" ? "workingTitle" : key === "done" ? "doneTitle" : "errorTitle";
+  $("message-title").textContent = key ? translate(titleKey) : "";
+  $("message-text").textContent = key ? translate(key) : "";
+  if (key && kind === "error" && attention) {
+    message.focus({ preventScroll: true });
+    message.scrollIntoView({ block: "center", behavior: "auto" });
+  }
 }
 
 function setBusy(value) {
@@ -115,8 +134,8 @@ async function authenticate(path, body) {
 }
 
 $("language").addEventListener("change", (event) => localize(event.target.value));
-localize(navigator.language.split("-")[0]);
-window.addEventListener("pageshow", () => localize($("language").value));
+localize("en");
+window.addEventListener("pageshow", () => localize(language));
 
 $("email-form").addEventListener("submit", async (event) => {
   event.preventDefault();

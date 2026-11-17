@@ -6,8 +6,8 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
   <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src https://qiolfspmmdjmavhbaiwm.supabase.co; form-action 'none'; base-uri 'none'">
   <title>Delete your Dwallet account</title>
-  <link rel="stylesheet" href="style.css?v=8">
-  <script type="module" src="page.js?v=9"></script>
+  <link rel="stylesheet" href="style.css?v=10">
+  <script type="module" src="page.js?v=10"></script>
 </head>
 <body>
   <main>
@@ -16,7 +16,13 @@
     </header>
     <h1 data-copy="title">Delete your Dwallet account</h1>
     <p data-copy="description">Deleting your account permanently removes your Dwallet account, cloud backups, and account-linked activity. Items saved locally on a device are managed on that device.</p>
-    <p id="message" role="status" aria-live="polite"></p>
+    <div id="message" class="notice" role="status" aria-live="polite" aria-atomic="true" tabindex="-1" hidden>
+      <span id="message-icon" class="notice-icon" aria-hidden="true"></span>
+      <div class="notice-body">
+        <strong id="message-title"></strong>
+        <p id="message-text"></p>
+      </div>
+    </div>
     <section id="sign-in">
       <h2 data-copy="ownership">Verify your account</h2>
       <form id="email-form">
