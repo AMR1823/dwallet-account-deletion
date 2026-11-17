@@ -116,6 +116,7 @@ async function authenticate(path, body) {
 
 $("language").addEventListener("change", (event) => localize(event.target.value));
 localize(navigator.language.split("-")[0]);
+window.addEventListener("pageshow", () => localize($("language").value));
 
 $("email-form").addEventListener("submit", async (event) => {
   event.preventDefault();
