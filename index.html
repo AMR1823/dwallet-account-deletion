@@ -4,11 +4,10 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' https://accounts.google.com/gsi/client; style-src 'self' https://accounts.google.com/gsi/style; img-src 'self'; connect-src https://qiolfspmmdjmavhbaiwm.supabase.co https://accounts.google.com/gsi/; frame-src https://accounts.google.com/gsi/; form-action 'none'; base-uri 'none'">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src https://qiolfspmmdjmavhbaiwm.supabase.co; form-action 'none'; base-uri 'none'">
   <title>Delete your Dwallet account</title>
-  <link rel="stylesheet" href="style.css?v=7">
-  <link rel="stylesheet" href="https://accounts.google.com/gsi/style">
-  <script type="module" src="page.js?v=6"></script>
+  <link rel="stylesheet" href="style.css?v=8">
+  <script type="module" src="page.js?v=8"></script>
 </head>
 <body>
   <main>
@@ -27,8 +26,10 @@
         <input type="password" name="password" id="password" autocomplete="current-password" required>
         <button data-copy="continue">Continue</button>
       </form>
-      <div id="google-sign-in" aria-label="Sign in with Google"></div>
-      <button id="google-retry" class="secondary" type="button" data-copy="googleRetry" hidden>Reload Google sign-in</button>
+      <button id="google" class="secondary" type="button">
+        <img src="google.svg" width="20" height="20" alt="">
+        <span data-copy="google">Continue with Google</span>
+      </button>
       <p class="hint" data-copy="recovery">Choose the Google account linked to Dwallet, or sign in with your Dwallet email and password.</p>
     </section>
     <section id="confirmation" hidden>

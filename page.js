@@ -6,7 +6,7 @@ const translations = {
     title: "حذف حساب Dwallet", description: "حذف الحساب يمسح حساب Dwallet ونسخه السحابية ونشاطه المرتبط به نهائيًا. العناصر المحفوظة محليًا تُدار من الجهاز المحفوظة عليه.",
     ownership: "تحقّق من حسابك", email: "البريد الإلكتروني", password: "كلمة سر Dwallet", continue: "متابعة",
     recovery: "اختار حساب Google المرتبط بـDwallet، أو ادخل ببريد Dwallet وكلمة السر.",
-    googleRetry: "إعادة تحميل تسجيل Google", googleUnavailable: "تعذّر تحميل Google. اضغط إعادة التحميل أو استخدم البريد وكلمة السر.",
+    google: "المتابعة باستخدام Google",
     accountNotFound: "مفيش حساب Dwallet مرتبط بحساب Google ده. ما اتحذفش أي حساب.",
     confirmTitle: "تأكيد حذف الحساب", confirm: "أفهم إن الحساب والنسخ السحابية لا يمكن استرجاعهم.", delete: "حذف حسابي نهائيًا", cancel: "إلغاء",
     working: "جارٍ التنفيذ…", signInError: "تعذر تسجيل الدخول. راجع البيانات وتأكد إن الحساب مفعّل، أو جرّب تسجيل الدخول من جديد.",
@@ -17,7 +17,7 @@ const translations = {
     title: "Elimina il tuo account Dwallet", description: "L’eliminazione rimuove definitivamente l’account Dwallet, i backup sul cloud e le attività collegate. Gli elementi salvati sul dispositivo si gestiscono da quel dispositivo.",
     ownership: "Verifica il tuo account", email: "Indirizzo email", password: "Password di Dwallet", continue: "Continua",
     recovery: "Scegli l’account Google collegato a Dwallet o accedi con email e password di Dwallet.",
-    googleRetry: "Ricarica l’accesso Google", googleUnavailable: "Impossibile caricare Google. Riprova o usa email e password.",
+    google: "Continua con Google",
     accountNotFound: "Nessun account Dwallet è collegato a questo account Google. Nessun account è stato eliminato.",
     confirmTitle: "Conferma l’eliminazione", confirm: "Ho capito che l’account e i backup sul cloud non si possono recuperare.", delete: "Elimina definitivamente il mio account", cancel: "Annulla",
     working: "Operazione in corso…", signInError: "Impossibile accedere. Verifica i dati e che l’account sia confermato, oppure riprova.",
@@ -33,8 +33,6 @@ Object.assign(copy, {
   deleteError: "Deletion could not be confirmed. Try again. If your session has expired, sign in again.",
   expired: "Your verification expired. Sign in again.",
   done: "Your account and its cloud data were deleted.",
-  googleRetry: "Reload Google sign-in",
-  googleUnavailable: "Could not load Google sign-in. Retry or use your email and password.",
   accountNotFound: "No Dwallet account is linked to this Google account. No account was deleted.",
 });
 
@@ -45,7 +43,9 @@ let busy = false;
 let googleCredential = null;
 let googleAccountId = null;
 let googleNonce = null;
-let googleInitialized = false;
+const googleAttemptKey = "dwallet.delete.google";
+const googleClientId = "123785427219-g9ogg41gufmu21pkfcgpff3emo43k8uj.apps.googleusercontent.com";
+const googleRedirectUri = "https://amr1823.github.io/dwallet-account-deletion/";
 
 function localize(chosen) {
   language = Object.hasOwn(translations, chosen) ? chosen : "en";
@@ -71,7 +71,6 @@ function announce(key) {
 function setBusy(value) {
   busy = value;
   document.querySelectorAll("button").forEach((button) => { button.disabled = value; });
-  $("google-sign-in").inert = value;
 }
 
 async function request(path, options = {}) {
@@ -106,7 +105,6 @@ function clearSession() {
   $("account-email").textContent = "";
   $("confirmation").hidden = true;
   $("confirm").checked = false;
-  window.google?.accounts.id.disableAutoSelect();
 }
 
 async function authenticate(path, body) {
@@ -168,38 +166,62 @@ async function googleResult(result) {
   }
 }
 
-function renderGoogle() {
-  googleNonce = base64Url(crypto.getRandomValues(new Uint8Array(32)));
-  window.google.accounts.id.initialize({
-    client_id: "123785427219-g9ogg41gufmu21pkfcgpff3emo43k8uj.apps.googleusercontent.com",
-    callback: googleResult, nonce: googleNonce, auto_select: false,
-  });
-  window.google.accounts.id.renderButton($("google-sign-in"), {
-    type: "standard", theme: "filled_black", size: "large", text: "continue_with",
-    shape: "rectangular", width: Math.min(320, $("google-sign-in").clientWidth),
-  });
-  googleInitialized = true;
-  $("google-retry").hidden = true;
-}
-
-function loadGoogle() {
-  if (googleInitialized) return;
-  $("google-retry").hidden = true;
-  const previous = document.getElementById("google-library");
-  previous?.remove();
-  const script = document.createElement("script");
-  script.id = "google-library";
-  script.src = "https://accounts.google.com/gsi/client";
-  script.async = true;
-  script.onload = () => { try { renderGoogle(); } catch { unavailable(); } };
-  script.onerror = unavailable;
-  function unavailable() {
-    $("google-retry").hidden = false;
-    announce("googleUnavailable");
+$("google").addEventListener("click", () => {
+  if (busy || session || googleCredential) return;
+  try {
+    if (location.origin + location.pathname !== googleRedirectUri) throw new Error("redirect_origin");
+    const attempt = {
+      state: base64Url(crypto.getRandomValues(new Uint8Array(32))),
+      nonce: base64Url(crypto.getRandomValues(new Uint8Array(32))),
+      startedAt: Date.now(), language,
+    };
+    sessionStorage.setItem(googleAttemptKey, JSON.stringify(attempt));
+    const url = new URL("https://accounts.google.com/o/oauth2/v2/auth");
+    url.search = new URLSearchParams({
+      client_id: googleClientId, redirect_uri: googleRedirectUri,
+      response_type: "id_token", scope: "openid email",
+      nonce: attempt.nonce, state: attempt.state, prompt: "select_account",
+    });
+    location.assign(url.href);
+  } catch {
+    announce("signInError");
   }
-  document.head.appendChild(script);
+});
+
+async function handleGoogleRedirect() {
+  const fragment = new URLSearchParams(location.hash.slice(1));
+  if (!fragment.has("id_token") && !fragment.has("error") && !fragment.has("state")) return;
+  // Remove the credential from the address before performing any request.
+  history.replaceState(null, "", location.pathname + location.search);
+  try {
+    const stored = sessionStorage.getItem(googleAttemptKey);
+    sessionStorage.removeItem(googleAttemptKey);
+    const attempt = JSON.parse(stored ?? "null");
+    const age = Date.now() - attempt?.startedAt;
+    const randomValue = /^[a-zA-Z0-9_-]{43}$/;
+    if (!attempt || !randomValue.test(attempt.state ?? "") || !randomValue.test(attempt.nonce ?? "") ||
+        !Number.isFinite(age) || age < -30000 || age > 10 * 60000 ||
+        fragment.getAll("state").length !== 1 || fragment.get("state") !== attempt.state ||
+        location.origin + location.pathname !== googleRedirectUri) {
+      announce("expired");
+      return;
+    }
+    localize(attempt.language);
+    if (fragment.has("error")) {
+      if (fragment.get("error") !== "access_denied") announce("signInError");
+      return;
+    }
+    const credential = fragment.get("id_token");
+    if (fragment.getAll("id_token").length !== 1 || !credential || credential.length > 12000) {
+      announce("expired");
+      return;
+    }
+    googleNonce = attempt.nonce;
+    await googleResult({ credential });
+  } catch {
+    announce("expired");
+  }
 }
-$("google-retry").addEventListener("click", loadGoogle);
 
 $("cancel").addEventListener("click", () => {
   clearSession();
@@ -250,5 +272,5 @@ window.addEventListener("pagehide", () => {
   $("sign-in").hidden = false;
   announce("");
 });
-loadGoogle();
+void handleGoogleRedirect();
 
