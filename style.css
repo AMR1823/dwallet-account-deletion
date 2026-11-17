@@ -17,6 +17,8 @@ input:not([type=checkbox]) { width: 100%; padding: 12px; background: #0e1527; co
 input[type=email], input[type=password] { direction: ltr; }
 button { display: block; width: 100%; margin-block-start: 14px; min-height: 46px; padding: 10px 13px; border-radius: 10px; border: 1px solid transparent; font: inherit; font-weight: 650; background: #a79aff; color: #13132f; cursor: pointer; }
 .secondary { background: transparent; border-color: #596583; color: #eff3ff; }
+#google { display: flex; align-items: center; justify-content: center; gap: 10px; }
+#google img { flex: none; }
 .danger { background: #ffb4ae; color: #460d14; }
 :focus-visible { outline: 3px solid #53e6df; outline-offset: 3px; }
 button:disabled { opacity: .65; cursor: wait; }
