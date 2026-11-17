@@ -1,0 +1,27 @@
+:root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; color: #eff3ff; background: #090e1b; }
+* { box-sizing: border-box; }
+body { margin: 0; padding: clamp(16px, 6vw, 68px) 16px; }
+main { margin: auto; max-width: 560px; padding: clamp(20px, 6vw, 42px); border: 1px solid #2b3854; border-radius: 26px; background: #121a2c; }
+header { display: flex; align-items: center; gap: 10px; margin-block-end: 25px; }
+header strong { font-size: 19px; }
+header select { margin-inline-start: auto; color: #eff3ff; background: #19243b; border: 1px solid #4c5a79; border-radius: 9px; padding: 8px; }
+h1 { margin: 0 0 12px; font-size: clamp(25px, 6vw, 36px); line-height: 1.12; }
+h2 { font-size: 18px; margin: 0 0 16px; }
+section { border-block-start: 1px solid #2e3a56; padding-block-start: 22px; margin-block-start: 24px; }
+p { line-height: 1.55; color: #c0cbe0; }
+#message:empty { display: none; }
+#message { color: #9af4ed; overflow-wrap: anywhere; }
+#account-email { overflow-wrap: anywhere; }
+form label { display: block; margin: 12px 0 6px; }
+input:not([type=checkbox]) { width: 100%; padding: 12px; background: #0e1527; color: #fff; border: 1px solid #566482; border-radius: 9px; }
+input[type=email], input[type=password] { direction: ltr; }
+button { display: block; width: 100%; margin-block-start: 14px; min-height: 46px; padding: 10px 13px; border-radius: 10px; border: 1px solid transparent; font: inherit; font-weight: 650; background: #a79aff; color: #13132f; cursor: pointer; }
+.secondary { background: transparent; border-color: #596583; color: #eff3ff; }
+.danger { background: #ffb4ae; color: #460d14; }
+:focus-visible { outline: 3px solid #53e6df; outline-offset: 3px; }
+button:disabled { opacity: .65; cursor: wait; }
+.hint { font-size: .88rem; }
+form .checkbox { display: flex; gap: 10px; align-items: start; line-height: 1.4; }
+input[type=checkbox] { accent-color: #a79aff; width: 18px; height: 18px; flex: none; }
+button, input, select { font-size: 1rem; }
+

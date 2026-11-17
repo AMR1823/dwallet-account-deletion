@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1190" height="1260" viewBox="238 145 1190 1260" role="img" aria-labelledby="logo-title logo-description">
+  <title id="logo-title">Smart Wallet — vector logo</title>
+  <desc id="logo-description">Hand-built scalable vector recreation of the smart wallet mark: navy wallet, turquoise and blue cards, cyan circuit traces, and a blue clasp. Transparent background. All artwork uses editable paths, gradients and SVG filters; no embedded raster images or external assets.</desc>
+  <defs>
+    <linearGradient id="backLeather" x1="317" y1="430" x2="1249" y2="1192" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#07447f" />
+      <stop offset=".44" stop-color="#02275b" />
+      <stop offset="1" stop-color="#000d28" />
+    </linearGradient>
+    <linearGradient id="backRim" x1="330" y1="420" x2="1267" y2="747" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#116fba" />
+      <stop offset=".42" stop-color="#06457e" />
+      <stop offset=".8" stop-color="#001330" />
+      <stop offset="1" stop-color="#1586e0" />
+    </linearGradient>
+    <linearGradient id="cavity" x1="405" y1="449" x2="481" y2="575" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#001026" />
+      <stop offset="1" stop-color="#000714" />
+    </linearGradient>
+    <linearGradient id="greenCard" x1="425" y1="564" x2="1093" y2="208" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#008e91" />
+      <stop offset=".28" stop-color="#00c4b7" />
+      <stop offset=".66" stop-color="#00d8b5" />
+      <stop offset="1" stop-color="#00efc3" />
+    </linearGradient>
+    <linearGradient id="greenSheen" x1="614" y1="452" x2="1103" y2="195" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00ffdc" stop-opacity=".07" />
+      <stop offset="1" stop-color="#19ffe0" stop-opacity=".33" />
+    </linearGradient>
+    <linearGradient id="greenEdge" x1="480" y1="512" x2="1140" y2="244" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00aaab" />
+      <stop offset=".6" stop-color="#2cffe0" />
+      <stop offset="1" stop-color="#41ffda" />
+    </linearGradient>
+    <linearGradient id="blueCard" x1="407" y1="570" x2="1237" y2="401" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#052575" />
+      <stop offset=".24" stop-color="#0335ac" />
+      <stop offset=".61" stop-color="#0064e5" />
+      <stop offset="1" stop-color="#00adf2" />
+    </linearGradient>
+    <linearGradient id="blueSheen" x1="464" y1="536" x2="1248" y2="359" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1671dc" stop-opacity=".2" />
+      <stop offset="1" stop-color="#00c5ff" stop-opacity=".46" />
+    </linearGradient>
+    <linearGradient id="blueEdge" x1="433" y1="548" x2="1269" y2="422" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#025bca" />
+      <stop offset=".6" stop-color="#0395f0" />
+      <stop offset="1" stop-color="#02c5ff" />
+    </linearGradient>
+    <linearGradient id="leather" x1="522" y1="588" x2="925" y2="1352" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#073c70" />
+      <stop offset=".25" stop-color="#032b57" />
+      <stop offset=".57" stop-color="#021e42" />
+      <stop offset="1" stop-color="#00132f" />
+    </linearGradient>
+    <radialGradient id="leatherLight" cx=".17" cy=".07" r=".9" gradientTransform="translate(0 .03) scale(1 .85)">
+      <stop stop-color="#03539a" stop-opacity=".25" />
+      <stop offset=".57" stop-color="#002449" stop-opacity=".02" />
+      <stop offset="1" stop-color="#001029" stop-opacity=".25" />
+    </radialGradient>
+    <linearGradient id="bodyEdge" x1="296" y1="657" x2="1232" y2="1312" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#098de1" />
+      <stop offset=".3" stop-color="#0066b1" />
+      <stop offset=".64" stop-color="#064071" />
+      <stop offset="1" stop-color="#00265d" />
+    </linearGradient>
+    <linearGradient id="topLip" x1="558" y1="574" x2="567" y2="645" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1175b8" stop-opacity=".47" />
+      <stop offset="1" stop-color="#002454" stop-opacity=".36" />
+    </linearGradient>
+    <linearGradient id="lipEdge" x1="306" y1="554" x2="1273" y2="639" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#238bca" />
+      <stop offset=".45" stop-color="#0788cd" />
+      <stop offset="1" stop-color="#1971b4" />
+    </linearGradient>
+    <linearGradient id="stitchColor" x1="723" y1="613" x2="751" y2="1309" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#267bc1" />
+      <stop offset=".46" stop-color="#1a66aa" />
+      <stop offset="1" stop-color="#16477c" />
+    </linearGradient>
+    <linearGradient id="circuit" x1="298" y1="924" x2="819" y2="924" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00c9f1" />
+      <stop offset=".45" stop-color="#00e1eb" />
+      <stop offset="1" stop-color="#05f3e9" />
+    </linearGradient>
+    <linearGradient id="circuitEdge" x1="296" y1="793" x2="770" y2="1187" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1efff3" stop-opacity=".85" />
+      <stop offset="1" stop-color="#00afff" stop-opacity=".26" />
+    </linearGradient>
+    <linearGradient id="flapLeather" x1="1030" y1="806" x2="1268" y2="1087" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#083b76" />
+      <stop offset=".54" stop-color="#032957" />
+      <stop offset="1" stop-color="#021c40" />
+    </linearGradient>
+    <linearGradient id="flapEdge" x1="1007" y1="802" x2="1346" y2="1103" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#178ce6" />
+      <stop offset=".5" stop-color="#085fae" />
+      <stop offset="1" stop-color="#145191" />
+    </linearGradient>
+    <linearGradient id="flapSheen" x1="1137" y1="806" x2="1137" y2="925" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1370c3" stop-opacity=".36" />
+      <stop offset="1" stop-color="#0e5aaf" stop-opacity=".11" />
+    </linearGradient>
+    <linearGradient id="button" x1="1059" y1="914" x2="1138" y2="1012" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#00e7f2" />
+      <stop offset=".42" stop-color="#00b7f7" />
+      <stop offset="1" stop-color="#008bfa" />
+    </linearGradient>
+    <linearGradient id="buttonEdge" x1="1077" y1="905" x2="1118" y2="1025" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#31fff1" />
+      <stop offset=".55" stop-color="#00c1fa" />
+      <stop offset="1" stop-color="#005eb6" />
+    </linearGradient>
+    <filter id="cardShadow" x="-10%" y="-15%" width="120%" height="135%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="5" stdDeviation="4" flood-color="#000716" flood-opacity=".75" />
+    </filter>
+    <filter id="circuitGlow" x="-10%" y="-15%" width="120%" height="130%" color-interpolation-filters="sRGB">
+      <feGaussianBlur stdDeviation="9" />
+    </filter>
+    <filter id="flapShadow" x="-15%" y="-17%" width="140%" height="155%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="14" stdDeviation="15" flood-color="#000714" flood-opacity=".87" />
+    </filter>
+    <filter id="buttonShadow" x="-35%" y="-30%" width="175%" height="180%" color-interpolation-filters="sRGB">
+      <feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#000713" flood-opacity=".85" />
+    </filter>
+    <path id="frontShape" d="M294 520 C294 557 330 577 390 577 H1158 C1247 577 1318 643 1318 731 V1195 C1318 1290 1262 1356 1163 1356 H455 C358 1356 294 1293 294 1195 Z" />
+    <clipPath id="frontClip">
+      <use href="#frontShape" xlink:href="#frontShape" />
+    </clipPath>
+    <g id="circuitLines" fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M285 853 C319 864 353 863 390 863 H440 L516 783 H686" />
+      <path d="M285 929 C320 936 354 935 389 935 H440 L498 902 H604" />
+      <path d="M285 1016 C317 1025 350 1024 387 1024 H546 L590 1050 H747" />
+      <path d="M285 1103 C319 1112 353 1111 389 1111 H460 L528 1173 H638" />
+    </g>
+    <g id="circuitNodes" fill="none">
+      <circle cx="722" cy="776" r="28" />
+      <circle cx="641" cy="912" r="28" />
+      <circle cx="784" cy="1050" r="28" />
+      <circle cx="675" cy="1173" r="28" />
+    </g>
+    <clipPath id="rimVisible">
+      <path clip-rule="evenodd" d="M0 0 H1600 V1600 H0 Z M530 505 L1053 197 C1097 175 1137 195 1154 242 C1165 272 1165 298 1169 325 L530 505 Z" transform="translate(-55 -15)" />
+    </clipPath>
+    <linearGradient id="refinedRimSurface" x1="294" y1="407" x2="340" y2="600" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#02c9ff" />
+      <stop offset=".40" stop-color="#087ec7" />
+      <stop offset=".72" stop-color="#0462a7" />
+      <stop offset="1" stop-color="#0476b7" />
+    </linearGradient>
+    <linearGradient id="refinedRimEdge" x1="300" y1="480" x2="1318" y2="700" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#8dffff" />
+      <stop offset=".18" stop-color="#60f5ff" />
+      <stop offset=".68" stop-color="#04c5ff" />
+      <stop offset="1" stop-color="#0877bd" />
+    </linearGradient>
+    <mask id="visibleRearRim" maskUnits="userSpaceOnUse" x="0" y="0" width="1600" height="1600">
+      <rect width="1600" height="1600" fill="white" />
+      <path d="M355 610 C595 449 930 357 1179 331 C1226 326 1267 354 1269 405 L1280 660 H355 Z" fill="black" transform="matrix(0.9 0 0 1 105 -55)" />
+      <path d="M355 610 C595 449 930 357 1179 331 C1226 326 1267 354 1269 405 L1280 660 H355 Z" fill="black" />
+      <rect width="1600" height="1600" fill="white" y="535" />
+    </mask>
+  </defs>
+  <g id="smart-wallet-icon">
+    <g id="wallet-back">
+      <path d="M294 520 C294 451 365 407 469 407 H1147 C1245 407 1320 481 1320 597 V1189 C1320 1285 1261 1356 1163 1356 H455 C356 1356 294 1289 294 1195 Z" fill="url(#backLeather)" stroke="url(#backRim)" stroke-width="5" />
+      <path d="M800 427 H470 C380 427 330 468 330 520 C330 549 355 565 390 577 H1158 V460 Z" fill="url(#cavity)" />
+      <path d="M1265 490 C1300 517 1311 555 1311 599 V727" fill="none" stroke="#178ce7" stroke-width="4" opacity=".72" />
+    </g>
+    <g id="cards">
+      <path d="M355 610 C595 449 930 357 1179 331 C1226 326 1267 354 1269 405 L1280 660 H355 Z" fill="url(#greenCard)" stroke="url(#greenEdge)" stroke-width="3" stroke-linejoin="round" transform="matrix(0.9 0 0 1 105 -55)" />
+      <path d="M355 610 C595 449 930 357 1179 331 C1226 326 1267 354 1269 405 C1000 426 625 527 355 610 Z" fill="url(#greenSheen)" stroke-linejoin="round" transform="matrix(0.9 0 0 1 105 -55)" />
+      <path d="M355 610 C595 449 930 357 1179 331 C1226 326 1267 354 1269 405 L1280 660 H355 Z" fill="url(#blueCard)" stroke="url(#blueEdge)" stroke-width="3" stroke-linejoin="round" />
+      <path d="M355 610 C595 449 930 357 1179 331 C1226 326 1267 354 1269 405 C1000 426 625 527 355 610 Z" fill="url(#blueSheen)" stroke-linejoin="round" />
+    </g>
+    <g id="wallet-front">
+      <use href="#frontShape" xlink:href="#frontShape" fill="url(#leather)" />
+      <use href="#frontShape" xlink:href="#frontShape" fill="url(#leatherLight)" />
+      <g clip-path="url(#frontClip)">
+        <path d="M390 615 H1153 C1221 615 1265 661 1265 730 V1188 C1265 1269 1226 1309 1150 1309 H465 C407 1309 371 1283 347 1238" fill="none" stroke="#00162f" stroke-width="10" stroke-linecap="round" stroke-dasharray="26 29" opacity=".28" transform="translate(0 2)" />
+        <path d="M390 615 H1153 C1221 615 1265 661 1265 730 V1188 C1265 1269 1226 1309 1150 1309 H465 C407 1309 371 1283 347 1238" fill="none" stroke="url(#stitchColor)" stroke-width="7" stroke-linecap="round" stroke-dasharray="26 29" opacity=".78" />
+        <g id="circuit-glow" filter="url(#circuitGlow)" stroke="#00dfff" opacity=".63">
+          <use href="#circuitLines" xlink:href="#circuitLines" stroke-width="39" />
+          <use href="#circuitNodes" xlink:href="#circuitNodes" stroke-width="24" />
+        </g>
+        <g id="circuit-traces" stroke="url(#circuitEdge)">
+          <use href="#circuitLines" xlink:href="#circuitLines" stroke-width="36" />
+          <use href="#circuitNodes" xlink:href="#circuitNodes" stroke-width="22" />
+        </g>
+        <g stroke="url(#circuit)">
+          <use href="#circuitLines" xlink:href="#circuitLines" stroke-width="32" />
+          <use href="#circuitNodes" xlink:href="#circuitNodes" stroke-width="19" />
+        </g>
+      </g>
+      <use href="#frontShape" xlink:href="#frontShape" fill="none" stroke="url(#bodyEdge)" stroke-width="4" />
+      <path d="M297 594 V1194 C297 1287 358 1352 455 1352" fill="none" stroke="#1aa8ed" stroke-width="2" opacity=".4" />
+      <path id="continuous-wallet-rim" d="M800 407 H470 C365 407 294 451 294 520 C294 557 330 577 390 577 H1158 C1247 577 1318 643 1318 731 L1318 749 C1304 657 1245 596 1158 596 H390 C330 596 312 558 312 520 C312 461 379 427 470 427 H800 Z" fill="url(#refinedRimSurface)" mask="url(#visibleRearRim)" />
+      <path id="continuous-rim-highlight" d="M800 408 H470 C365 408 295 452 295 520 C295 557 331 578 390 578 H1158 C1247 578 1317 644 1317 731" fill="none" stroke="url(#refinedRimEdge)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" mask="url(#visibleRearRim)" />
+    </g>
+    <g id="wallet-clasp">
+      <path d="M1101 787 H1319 C1351 787 1374 812 1374 848 V1038 C1374 1069 1353 1088 1320 1088 H1102 C1029 1088 974 1034 974 959 V919 C974 845 1026 787 1101 787 Z" fill="url(#flapLeather)" stroke="#001025" stroke-width="9" />
+      <path d="M1101 787 H1319 C1351 787 1374 812 1374 848 V1038 C1374 1069 1353 1088 1320 1088 H1102 C1029 1088 974 1034 974 959 V919 C974 845 1026 787 1101 787 Z" fill="url(#flapLeather)" stroke="url(#flapEdge)" stroke-width="6" />
+      <path d="M987 908 C1008 869 1046 852 1101 852 H1174 C1243 852 1303 867 1355 897 V849 C1355 828 1340 815 1318 815 H1101 C1046 815 1004 850 987 908 Z" fill="url(#flapSheen)" />
+      <path d="M1275 800 H1318 C1347 800 1363 820 1363 849 V1035 C1363 1061 1345 1077 1321 1077 H1254 C1285 1049 1295 1011 1295 964 V819 Z" fill="#0b4b8e" opacity=".11" />
+      <path d="M986 879 C1001 827 1046 794 1101 794 H1318 C1345 794 1365 815 1365 844" fill="none" stroke="#379ee8" stroke-width="2" opacity=".55" />
+      <circle cx="1100" cy="963" r="62" fill="url(#button)" stroke="#001029" stroke-width="4" />
+      <circle cx="1100" cy="963" r="61" fill="url(#button)" stroke="url(#buttonEdge)" stroke-width="2.5" />
+      <ellipse cx="1078" cy="936" rx="25" ry="29" fill="#36ffff" opacity=".2" transform="rotate(19 1078 936)" />
+      <path d="M1045 943 A58 58 0 0 1 1133 916" fill="none" stroke="#41fff4" stroke-width="2" stroke-linecap="round" opacity=".55" />
+    </g>
+  </g>
+</svg>
