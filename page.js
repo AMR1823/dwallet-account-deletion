@@ -5,11 +5,9 @@ const translations = {
   ar: {
     title: "حذف حساب Dwallet", description: "حذف الحساب يمسح حساب Dwallet ونسخه السحابية ونشاطه المرتبط به نهائيًا. العناصر المحفوظة محليًا تُدار من الجهاز المحفوظة عليه.",
     ownership: "تحقّق من حسابك", email: "البريد الإلكتروني", password: "كلمة سر Dwallet", continue: "متابعة",
-    emailLink: "إرسال رابط تحقق بالبريد", recovery: "اختار حساب Google المرتبط بـDwallet، أو ادخل ببريد Dwallet وكلمة السر.",
+    recovery: "اختار حساب Google المرتبط بـDwallet، أو ادخل ببريد Dwallet وكلمة السر.",
     googleRetry: "إعادة تحميل تسجيل Google", googleUnavailable: "تعذّر تحميل Google. اضغط إعادة التحميل أو استخدم البريد وكلمة السر.",
     accountNotFound: "مفيش حساب Dwallet مرتبط بحساب Google ده. ما اتحذفش أي حساب.",
-    linkSent: "لو البريد مرتبط بحساب موجود، راجع بريدك وافتح رابط التحقق من نفس المتصفح.",
-    linkError: "تعذّر إرسال رابط التحقق. استنى شوية وجرّب تاني، أو افتح صفحة الحساب في Dwallet.",
     confirmTitle: "تأكيد حذف الحساب", confirm: "أفهم إن الحساب والنسخ السحابية لا يمكن استرجاعهم.", delete: "حذف حسابي نهائيًا", cancel: "إلغاء",
     working: "جارٍ التنفيذ…", signInError: "تعذر تسجيل الدخول. راجع البيانات وتأكد إن الحساب مفعّل، أو جرّب تسجيل الدخول من جديد.",
     deleteError: "لم يتأكد اكتمال حذف الحساب. جرّب مرة تانية. لو انتهت الجلسة، سجّل دخول من جديد.",
@@ -18,11 +16,9 @@ const translations = {
   it: {
     title: "Elimina il tuo account Dwallet", description: "L’eliminazione rimuove definitivamente l’account Dwallet, i backup sul cloud e le attività collegate. Gli elementi salvati sul dispositivo si gestiscono da quel dispositivo.",
     ownership: "Verifica il tuo account", email: "Indirizzo email", password: "Password di Dwallet", continue: "Continua",
-    emailLink: "Invia un link di verifica via email", recovery: "Scegli l’account Google collegato a Dwallet o accedi con email e password di Dwallet.",
+    recovery: "Scegli l’account Google collegato a Dwallet o accedi con email e password di Dwallet.",
     googleRetry: "Ricarica l’accesso Google", googleUnavailable: "Impossibile caricare Google. Riprova o usa email e password.",
     accountNotFound: "Nessun account Dwallet è collegato a questo account Google. Nessun account è stato eliminato.",
-    linkSent: "Se l’email è associata a un account esistente, cerca il link di verifica nella posta e aprilo in questo browser.",
-    linkError: "Non è stato possibile inviare il link. Riprova tra poco o apri le impostazioni dell’account in Dwallet.",
     confirmTitle: "Conferma l’eliminazione", confirm: "Ho capito che l’account e i backup sul cloud non si possono recuperare.", delete: "Elimina definitivamente il mio account", cancel: "Annulla",
     working: "Operazione in corso…", signInError: "Impossibile accedere. Verifica i dati e che l’account sia confermato, oppure riprova.",
     deleteError: "Non è stato possibile confermare l’eliminazione. Riprova. Se la sessione è scaduta, accedi di nuovo.",
@@ -37,15 +33,11 @@ Object.assign(copy, {
   deleteError: "Deletion could not be confirmed. Try again. If your session has expired, sign in again.",
   expired: "Your verification expired. Sign in again.",
   done: "Your account and its cloud data were deleted.",
-  linkSent: "If that email belongs to an existing account, check your inbox and open the verification link in this browser.",
-  linkError: "Could not send a verification link. Try again in a moment or open your account settings in Dwallet.",
   googleRetry: "Reload Google sign-in",
   googleUnavailable: "Could not load Google sign-in. Retry or use your email and password.",
   accountNotFound: "No Dwallet account is linked to this Google account. No account was deleted.",
 });
 
-const verificationKey = "dwallet.delete.email-verification";
-const verificationLifetime = 60 * 60_000;
 let language = "en";
 let status = "";
 let session = null;
@@ -54,15 +46,6 @@ let googleCredential = null;
 let googleAccountId = null;
 let googleNonce = null;
 let googleInitialized = false;
-
-function pendingVerification() {
-  const attempt = JSON.parse(localStorage.getItem(verificationKey) ?? "null");
-  if (!attempt?.verifier || Date.now() - attempt.startedAt > verificationLifetime) {
-    localStorage.removeItem(verificationKey);
-    return null;
-  }
-  return attempt;
-}
 
 function localize(chosen) {
   language = Object.hasOwn(translations, chosen) ? chosen : "en";
@@ -218,37 +201,6 @@ function loadGoogle() {
 }
 $("google-retry").addEventListener("click", loadGoogle);
 
-$("email-link").addEventListener("click", async () => {
-  if (busy || session || googleCredential) return;
-  const emailField = $("email");
-  if (!emailField.reportValidity()) return;
-  const email = emailField.value.trim();
-  $("password").value = "";
-  setBusy(true);
-  announce("working");
-  try {
-    const verifier = base64Url(crypto.getRandomValues(new Uint8Array(32)));
-    const challenge = base64Url(new Uint8Array(await crypto.subtle.digest("SHA-256", new TextEncoder().encode(verifier))));
-    localStorage.setItem(verificationKey, JSON.stringify({ verifier, startedAt: Date.now(), language }));
-    const redirect = location.origin + location.pathname;
-    const response = await request("/auth/v1/otp?redirect_to=" + encodeURIComponent(redirect), {
-      body: { email, create_user: false, code_challenge: challenge, code_challenge_method: "s256" },
-    });
-    if (!response.ok) {
-      const failure = await response.json().catch(() => null);
-      if (!["otp_disabled", "signup_disabled", "user_not_found"].includes(failure?.error_code ?? failure?.code)) {
-        throw new Error("email_link");
-      }
-    }
-    announce("linkSent");
-  } catch {
-    try { localStorage.removeItem(verificationKey); } catch { /* Storage is unavailable. */ }
-    announce("linkError");
-  } finally {
-    setBusy(false);
-  }
-});
-
 $("cancel").addEventListener("click", () => {
   clearSession();
   $("sign-in").hidden = false;
@@ -292,37 +244,11 @@ $("delete-form").addEventListener("submit", async (event) => {
   }
 });
 
-async function handleRedirect() {
-  const query = new URLSearchParams(location.search);
-  if (!query.has("code") && !query.has("error") && !location.hash) {
-    try { pendingVerification(); } catch { /* Password sign-in works without web storage. */ }
-    return;
-  }
-  history.replaceState(null, "", location.pathname);
-  setBusy(true);
-  try {
-    const attempt = pendingVerification();
-    localStorage.removeItem(verificationKey);
-    if (attempt?.language) localize(attempt.language);
-    const code = query.get("code");
-    if (!code || !attempt?.verifier) {
-      announce("expired");
-      return;
-    }
-    await authenticate("/auth/v1/token?grant_type=pkce", { auth_code: code, code_verifier: attempt.verifier });
-  } catch {
-    announce("signInError");
-  } finally {
-    setBusy(false);
-  }
-}
-
 window.addEventListener("pagehide", () => {
   if (!session && !googleCredential) return;
   clearSession();
   $("sign-in").hidden = false;
   announce("");
 });
-handleRedirect();
 loadGoogle();
 
