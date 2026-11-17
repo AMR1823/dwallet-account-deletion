@@ -28,6 +28,9 @@ p { line-height: 1.55; color: #c0cbe0; }
 #account-email { overflow-wrap: anywhere; }
 form label { display: block; margin: 12px 0 6px; }
 input:not([type=checkbox]) { width: 100%; padding: 12px; background: #0e1527; color: #fff; border: 1px solid #566482; border-radius: 9px; }
+input[aria-invalid="true"] { border-color: #ee7d92; background: #271926; animation: field-shake .25s ease-out; }
+@keyframes field-shake { 0%, 100% { transform: translateX(0); } 25%, 75% { transform: translateX(-3px); } 50% { transform: translateX(3px); } }
+@media (prefers-reduced-motion: reduce) { input[aria-invalid="true"] { animation: none; } }
 input[type=email], input[type=password] { direction: ltr; }
 form button, button.secondary { display: block; width: 100%; margin-block-start: 14px; min-height: 46px; padding: 10px 13px; border-radius: 10px; border: 1px solid transparent; font: inherit; font-weight: 650; background: #a79aff; color: #13132f; cursor: pointer; }
 button.secondary { background: transparent; border-color: #596583; color: #eff3ff; }

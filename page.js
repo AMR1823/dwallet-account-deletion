@@ -10,6 +10,12 @@ const translations = {
     accountNotFoundTitle: "الحساب مش موجود",
     accountNotFound: "حساب Google ده مش مسجّل في Dwallet. اختار حساب Google اللي بتستخدمه جوه التطبيق. ما اتحذفش أي حساب.",
     errorTitle: "في مشكلة محتاجة مراجعة", workingTitle: "لحظة من فضلك", doneTitle: "تم حذف الحساب",
+    credentialsTitle: "راجع بيانات الدخول", invalidCredentials: "البريد غير مسجّل أو كلمة السر غير صحيحة. لو بتدخل Dwallet باستخدام Google، استخدم زر Google اللي تحت.",
+    emailNotFound: "البريد ده مش مسجّل في Dwallet. راجع البريد واستخدم الحساب اللي بتدخل بيه التطبيق.",
+    confirmEmailTitle: "أكد بريدك الإلكتروني", emailUnconfirmed: "افتح رسالة التأكيد اللي وصلتك من Dwallet وأكد البريد، وبعدها جرّب تاني.",
+    rateLimitTitle: "محاولات كتير في وقت قصير", rateLimited: "استنى شوية قبل ما تحاول تسجيل الدخول تاني.",
+    serviceTitle: "الخدمة مش متاحة مؤقتًا", serviceUnavailable: "خدمة تسجيل الدخول مش متاحة دلوقتي. جرّب كمان شوية.",
+    connectionTitle: "تعذّر الاتصال", connectionError: "مقدرناش نتصل بخدمة تسجيل الدخول. تأكد من الإنترنت وجرّب تاني.",
     confirmTitle: "تأكيد حذف الحساب", confirm: "أفهم إن الحساب والنسخ السحابية لا يمكن استرجاعهم.", delete: "حذف حسابي نهائيًا", cancel: "إلغاء",
     working: "جارٍ التنفيذ…", signInError: "تعذر تسجيل الدخول. راجع البيانات وتأكد إن الحساب مفعّل، أو جرّب تسجيل الدخول من جديد.",
     deleteError: "لم يتأكد اكتمال حذف الحساب. جرّب مرة تانية. لو انتهت الجلسة، سجّل دخول من جديد.",
@@ -23,6 +29,12 @@ const translations = {
     accountNotFoundTitle: "Account non trovato",
     accountNotFound: "Questo account Google non è registrato su Dwallet. Scegli l’account Google che usi nell’app. Nessun account è stato eliminato.",
     errorTitle: "Si è verificato un problema", workingTitle: "Attendi un momento", doneTitle: "Account eliminato",
+    credentialsTitle: "Controlla i dati di accesso", invalidCredentials: "Email non registrata o password errata. Se accedi a Dwallet con Google, usa il pulsante Google qui sotto.",
+    emailNotFound: "Questa email non è registrata su Dwallet. Controlla l’indirizzo e usa l’account con cui accedi all’app.",
+    confirmEmailTitle: "Conferma la tua email", emailUnconfirmed: "Apri l’email di conferma di Dwallet, conferma l’indirizzo e riprova.",
+    rateLimitTitle: "Troppi tentativi", rateLimited: "Attendi qualche minuto prima di provare ad accedere di nuovo.",
+    serviceTitle: "Servizio temporaneamente non disponibile", serviceUnavailable: "Il servizio di accesso non è disponibile al momento. Riprova tra poco.",
+    connectionTitle: "Connessione non riuscita", connectionError: "Impossibile contattare il servizio di accesso. Controlla la connessione e riprova.",
     confirmTitle: "Conferma l’eliminazione", confirm: "Ho capito che l’account e i backup sul cloud non si possono recuperare.", delete: "Elimina definitivamente il mio account", cancel: "Annulla",
     working: "Operazione in corso…", signInError: "Impossibile accedere. Verifica i dati e che l’account sia confermato, oppure riprova.",
     deleteError: "Non è stato possibile confermare l’eliminazione. Riprova. Se la sessione è scaduta, accedi di nuovo.",
@@ -40,7 +52,20 @@ Object.assign(copy, {
   accountNotFoundTitle: "Account not found",
   accountNotFound: "This Google account isn’t registered with Dwallet. Choose the Google account you use in the app. Nothing has been deleted.",
   errorTitle: "Something went wrong", workingTitle: "Please wait", doneTitle: "Account deleted",
+  credentialsTitle: "Check your sign-in details", invalidCredentials: "Email not registered or incorrect password. If you use Google to sign in to Dwallet, use the Google button below.",
+  emailNotFound: "This email isn’t registered with Dwallet. Check the address and use the account you sign in to the app with.",
+  confirmEmailTitle: "Confirm your email", emailUnconfirmed: "Open the Dwallet confirmation email, confirm your address, then try again.",
+  rateLimitTitle: "Too many attempts", rateLimited: "Wait a few minutes before trying to sign in again.",
+  serviceTitle: "Service temporarily unavailable", serviceUnavailable: "The sign-in service is temporarily unavailable. Please try again shortly.",
+  connectionTitle: "Could not connect", connectionError: "We couldn’t reach the sign-in service. Check your internet connection and try again.",
 });
+
+const noticeTitles = {
+  accountNotFound: "accountNotFoundTitle", emailNotFound: "accountNotFoundTitle",
+  invalidCredentials: "credentialsTitle", emailUnconfirmed: "confirmEmailTitle",
+  rateLimited: "rateLimitTitle", serviceUnavailable: "serviceTitle", connectionError: "connectionTitle",
+  working: "workingTitle", done: "doneTitle",
+};
 
 let language = "en";
 let status = "";
@@ -78,7 +103,7 @@ function announce(key, { attention = true } = {}) {
   message.setAttribute("role", key && kind === "error" ? "alert" : "status");
   message.setAttribute("aria-live", key && kind === "error" ? "assertive" : "polite");
   $("message-icon").textContent = key ? (kind === "error" ? "!" : kind === "success" ? "✓" : "") : "";
-  const titleKey = key === "accountNotFound" ? "accountNotFoundTitle" : key === "working" ? "workingTitle" : key === "done" ? "doneTitle" : "errorTitle";
+  const titleKey = noticeTitles[key] ?? "errorTitle";
   $("message-title").textContent = key ? translate(titleKey) : "";
   $("message-text").textContent = key ? translate(key) : "";
   if (key && kind === "error" && attention) {
@@ -126,28 +151,67 @@ function clearSession() {
   $("confirm").checked = false;
 }
 
+class EmailSignInError extends Error {
+  constructor(reason) { super(reason); this.reason = reason; }
+}
+
+function emailErrorReason(response, payload) {
+  if (response.status === 429) return "rateLimited";
+  if (response.status >= 500) return "serviceUnavailable";
+  const code = typeof payload?.error_code === "string" ? payload.error_code :
+    typeof payload?.code === "string" ? payload.code : payload?.error;
+  if (code === "over_request_rate_limit") return "rateLimited";
+  if (code === "invalid_credentials" ||
+      (code === "invalid_grant" && payload?.error_description === "Invalid login credentials")) return "invalidCredentials";
+  if (code === "email_not_confirmed") return "emailUnconfirmed";
+  if (code === "user_not_found") return "emailNotFound";
+  return "signInError";
+}
+
+function setSignInFieldErrors(reason) {
+  const invalid = reason === "invalidCredentials";
+  for (const field of ["email", "password"]) {
+    const affected = invalid || (field === "email" && ["emailNotFound", "emailUnconfirmed"].includes(reason));
+    $(field).setAttribute("aria-invalid", String(affected));
+    $(field).setAttribute("aria-describedby", affected ? "message-title message-text" : "");
+  }
+}
+
 async function authenticate(path, body) {
   const response = await request(path, { body });
-  if (!response.ok) throw new Error("sign_in");
-  showOwner(await response.json());
+  if (!response.ok) {
+    const payload = await response.json().catch(() => null);
+    throw new EmailSignInError(emailErrorReason(response, payload));
+  }
+  try {
+    showOwner(await response.json());
+  } catch {
+    throw new EmailSignInError("signInError");
+  }
   announce("");
 }
 
 $("language").addEventListener("change", (event) => localize(event.target.value));
 localize("en");
 window.addEventListener("pageshow", () => localize(language));
+for (const field of ["email", "password"]) {
+  $(field).addEventListener("input", () => setSignInFieldErrors(""));
+}
 
 $("email-form").addEventListener("submit", async (event) => {
   event.preventDefault();
   if (busy || session || googleCredential) return;
   const password = $("password").value;
   $("password").value = "";
+  setSignInFieldErrors("");
   setBusy(true);
   announce("working");
   try {
     await authenticate("/auth/v1/token?grant_type=password", { email: $("email").value.trim(), password });
-  } catch {
-    announce("signInError");
+  } catch (error) {
+    const reason = error instanceof EmailSignInError ? error.reason : "connectionError";
+    setSignInFieldErrors(reason);
+    announce(reason);
   } finally {
     setBusy(false);
   }
