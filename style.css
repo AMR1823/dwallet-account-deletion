@@ -1,5 +1,6 @@
 :root { color-scheme: dark; font-family: Inter, system-ui, sans-serif; color: #eff3ff; background: #090e1b; }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body { margin: 0; padding: clamp(16px, 6vw, 68px) 16px; }
 main { margin: auto; max-width: 560px; padding: clamp(20px, 6vw, 42px); border: 1px solid #2b3854; border-radius: 26px; background: #121a2c; }
 header { display: flex; align-items: center; gap: 10px; margin-block-end: 25px; }
@@ -17,6 +18,7 @@ input:not([type=checkbox]) { width: 100%; padding: 12px; background: #0e1527; co
 input[type=email], input[type=password] { direction: ltr; }
 button { display: block; width: 100%; margin-block-start: 14px; min-height: 46px; padding: 10px 13px; border-radius: 10px; border: 1px solid transparent; font: inherit; font-weight: 650; background: #a79aff; color: #13132f; cursor: pointer; }
 .secondary { background: transparent; border-color: #596583; color: #eff3ff; }
+#google-sign-in { display: flex; justify-content: center; margin-block-start: 14px; min-height: 44px; }
 .danger { background: #ffb4ae; color: #460d14; }
 :focus-visible { outline: 3px solid #53e6df; outline-offset: 3px; }
 button:disabled { opacity: .65; cursor: wait; }

@@ -5,7 +5,9 @@ const translations = {
   ar: {
     title: "حذف حساب Dwallet", description: "حذف الحساب يمسح حساب Dwallet ونسخه السحابية ونشاطه المرتبط به نهائيًا. العناصر المحفوظة محليًا تُدار من الجهاز المحفوظة عليه.",
     ownership: "تحقّق من حسابك", email: "البريد الإلكتروني", password: "كلمة سر Dwallet", continue: "متابعة",
-    emailLink: "إرسال رابط تحقق بالبريد", recovery: "لو بتستخدم Google أو نسيت كلمة السر، اكتب بريد حساب Dwallet واطلب رابط تحقق. افتح الرابط من نفس المتصفح.",
+    emailLink: "إرسال رابط تحقق بالبريد", recovery: "اختار حساب Google المرتبط بـDwallet، أو ادخل ببريد Dwallet وكلمة السر.",
+    googleRetry: "إعادة تحميل تسجيل Google", googleUnavailable: "تعذّر تحميل Google. اضغط إعادة التحميل أو استخدم البريد وكلمة السر.",
+    accountNotFound: "مفيش حساب Dwallet مرتبط بحساب Google ده. ما اتحذفش أي حساب.",
     linkSent: "لو البريد مرتبط بحساب موجود، راجع بريدك وافتح رابط التحقق من نفس المتصفح.",
     linkError: "تعذّر إرسال رابط التحقق. استنى شوية وجرّب تاني، أو افتح صفحة الحساب في Dwallet.",
     confirmTitle: "تأكيد حذف الحساب", confirm: "أفهم إن الحساب والنسخ السحابية لا يمكن استرجاعهم.", delete: "حذف حسابي نهائيًا", cancel: "إلغاء",
@@ -16,7 +18,9 @@ const translations = {
   it: {
     title: "Elimina il tuo account Dwallet", description: "L’eliminazione rimuove definitivamente l’account Dwallet, i backup sul cloud e le attività collegate. Gli elementi salvati sul dispositivo si gestiscono da quel dispositivo.",
     ownership: "Verifica il tuo account", email: "Indirizzo email", password: "Password di Dwallet", continue: "Continua",
-    emailLink: "Invia un link di verifica via email", recovery: "Se usi Google o non ricordi la password, inserisci l’email di Dwallet e richiedi un link. Aprilo in questo browser.",
+    emailLink: "Invia un link di verifica via email", recovery: "Scegli l’account Google collegato a Dwallet o accedi con email e password di Dwallet.",
+    googleRetry: "Ricarica l’accesso Google", googleUnavailable: "Impossibile caricare Google. Riprova o usa email e password.",
+    accountNotFound: "Nessun account Dwallet è collegato a questo account Google. Nessun account è stato eliminato.",
     linkSent: "Se l’email è associata a un account esistente, cerca il link di verifica nella posta e aprilo in questo browser.",
     linkError: "Non è stato possibile inviare il link. Riprova tra poco o apri le impostazioni dell’account in Dwallet.",
     confirmTitle: "Conferma l’eliminazione", confirm: "Ho capito che l’account e i backup sul cloud non si possono recuperare.", delete: "Elimina definitivamente il mio account", cancel: "Annulla",
@@ -35,6 +39,9 @@ Object.assign(copy, {
   done: "Your account and its cloud data were deleted.",
   linkSent: "If that email belongs to an existing account, check your inbox and open the verification link in this browser.",
   linkError: "Could not send a verification link. Try again in a moment or open your account settings in Dwallet.",
+  googleRetry: "Reload Google sign-in",
+  googleUnavailable: "Could not load Google sign-in. Retry or use your email and password.",
+  accountNotFound: "No Dwallet account is linked to this Google account. No account was deleted.",
 });
 
 const verificationKey = "dwallet.delete.email-verification";
@@ -43,6 +50,10 @@ let language = "en";
 let status = "";
 let session = null;
 let busy = false;
+let googleCredential = null;
+let googleAccountId = null;
+let googleNonce = null;
+let googleInitialized = false;
 
 function pendingVerification() {
   const attempt = JSON.parse(localStorage.getItem(verificationKey) ?? "null");
@@ -77,6 +88,7 @@ function announce(key) {
 function setBusy(value) {
   busy = value;
   document.querySelectorAll("button").forEach((button) => { button.disabled = value; });
+  $("google-sign-in").inert = value;
 }
 
 async function request(path, options = {}) {
@@ -106,9 +118,12 @@ function showOwner(payload) {
 
 function clearSession() {
   session = null;
+  googleCredential = null;
+  googleAccountId = null;
   $("account-email").textContent = "";
   $("confirmation").hidden = true;
   $("confirm").checked = false;
+  window.google?.accounts.id.disableAutoSelect();
 }
 
 async function authenticate(path, body) {
@@ -123,7 +138,7 @@ localize(navigator.language.split("-")[0]);
 
 $("email-form").addEventListener("submit", async (event) => {
   event.preventDefault();
-  if (busy || session) return;
+  if (busy || session || googleCredential) return;
   const password = $("password").value;
   $("password").value = "";
   setBusy(true);
@@ -141,8 +156,70 @@ function base64Url(bytes) {
   return btoa(String.fromCharCode(...bytes)).replaceAll("+", "-").replaceAll("/", "_").replace(/=+$/, "");
 }
 
+async function googleResult(result) {
+  if (busy || session || googleCredential || !result.credential) return;
+  setBusy(true);
+  announce("working");
+  try {
+    const response = await request("/functions/v1/dwallet-delete-account/google/verify", {
+      body: { google_id_token: result.credential, nonce: googleNonce },
+    });
+    if (response.status === 404) {
+      announce("accountNotFound");
+      return;
+    }
+    if (!response.ok) throw new Error("google_verification");
+    const account = await response.json();
+    if (typeof account.email !== "string" || !account.email ||
+        typeof account.account_id !== "string" || !/^[a-f0-9-]{36}$/i.test(account.account_id)) throw new Error("google_account");
+    googleCredential = result.credential;
+    googleAccountId = account.account_id;
+    $("account-email").textContent = account.email;
+    $("sign-in").hidden = true;
+    $("confirmation").hidden = false;
+    announce("");
+  } catch {
+    announce("signInError");
+  } finally {
+    setBusy(false);
+  }
+}
+
+function renderGoogle() {
+  googleNonce = base64Url(crypto.getRandomValues(new Uint8Array(32)));
+  window.google.accounts.id.initialize({
+    client_id: "123785427219-g9ogg41gufmu21pkfcgpff3emo43k8uj.apps.googleusercontent.com",
+    callback: googleResult, nonce: googleNonce, auto_select: false,
+  });
+  window.google.accounts.id.renderButton($("google-sign-in"), {
+    type: "standard", theme: "filled_black", size: "large", text: "continue_with",
+    shape: "rectangular", width: 320,
+  });
+  googleInitialized = true;
+  $("google-retry").hidden = true;
+}
+
+function loadGoogle() {
+  if (googleInitialized) return;
+  $("google-retry").hidden = true;
+  const previous = document.getElementById("google-library");
+  previous?.remove();
+  const script = document.createElement("script");
+  script.id = "google-library";
+  script.src = "https://accounts.google.com/gsi/client";
+  script.async = true;
+  script.onload = () => { try { renderGoogle(); } catch { unavailable(); } };
+  script.onerror = unavailable;
+  function unavailable() {
+    $("google-retry").hidden = false;
+    announce("googleUnavailable");
+  }
+  document.head.appendChild(script);
+}
+$("google-retry").addEventListener("click", loadGoogle);
+
 $("email-link").addEventListener("click", async () => {
-  if (busy || session) return;
+  if (busy || session || googleCredential) return;
   const emailField = $("email");
   if (!emailField.reportValidity()) return;
   const email = emailField.value.trim();
@@ -180,18 +257,28 @@ $("cancel").addEventListener("click", () => {
 
 $("delete-form").addEventListener("submit", async (event) => {
   event.preventDefault();
-  if (busy || !session || !$("confirm").checked) return;
+  if (busy || (!session && !googleCredential) || !$("confirm").checked) return;
   setBusy(true);
   announce("working");
   try {
-    const response = await request("/functions/v1/dwallet-delete-account", {
-      token: session, body: { confirm: true }, timeout: 75000,
+    const response = await request("/functions/v1/dwallet-delete-account" + (googleCredential ? "/google/delete" : ""), {
+      token: session,
+      body: googleCredential ? {
+        google_id_token: googleCredential, nonce: googleNonce,
+        expected_account_id: googleAccountId, confirm: true,
+      } : { confirm: true },
+      timeout: 75000,
     });
     if (response.status === 204) {
       clearSession();
       $("email").value = "";
       announce("done");
-    } else if (response.status === 401) {
+    } else if (response.status === 404) {
+      clearSession();
+      $("sign-in").hidden = false;
+      announce("accountNotFound");
+    } else if (response.status === 401 ||
+        (response.status === 409 && (await response.json()).error === "account_changed")) {
       clearSession();
       $("sign-in").hidden = false;
       announce("expired");
@@ -231,10 +318,11 @@ async function handleRedirect() {
 }
 
 window.addEventListener("pagehide", () => {
-  if (!session) return;
+  if (!session && !googleCredential) return;
   clearSession();
   $("sign-in").hidden = false;
   announce("");
 });
 handleRedirect();
+loadGoogle();
 
