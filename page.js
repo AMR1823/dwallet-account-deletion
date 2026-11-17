@@ -176,7 +176,7 @@ function renderGoogle() {
   });
   window.google.accounts.id.renderButton($("google-sign-in"), {
     type: "standard", theme: "filled_black", size: "large", text: "continue_with",
-    shape: "rectangular", width: 320,
+    shape: "rectangular", width: Math.min(320, $("google-sign-in").clientWidth),
   });
   googleInitialized = true;
   $("google-retry").hidden = true;
