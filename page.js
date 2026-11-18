@@ -3,6 +3,7 @@ import { projectUrl, publicKey } from "./config.js";
 const $ = (id) => document.getElementById(id);
 const translations = {
   ar: {
+    privacyPolicy: "سياسة الخصوصية",
     title: "حذف حساب Dwallet", description: "حذف الحساب يمسح حساب Dwallet ونسخه السحابية ونشاطه المرتبط به نهائيًا. العناصر المحفوظة محليًا تُدار من الجهاز المحفوظة عليه.",
     ownership: "تحقّق من حسابك", email: "البريد الإلكتروني", password: "كلمة سر Dwallet", continue: "متابعة",
     recovery: "اختار حساب Google المرتبط بـDwallet، أو ادخل ببريد Dwallet وكلمة السر.",
@@ -23,6 +24,7 @@ const translations = {
     localCopy: "بعد الحذف، افتح Dwallet على كل جهاز ووصّله بالإنترنت. التطبيق هيسألك تحتفظ بخزنة محلية منفصلة ولا تحذف نسخة الجهاز.",
   },
   it: {
+    privacyPolicy: "Informativa sulla privacy",
     title: "Elimina il tuo account Dwallet", description: "L’eliminazione rimuove definitivamente l’account Dwallet, i backup sul cloud e le attività collegate. Gli elementi salvati sul dispositivo si gestiscono da quel dispositivo.",
     ownership: "Verifica il tuo account", email: "Indirizzo email", password: "Password di Dwallet", continue: "Continua",
     recovery: "Scegli l’account Google collegato a Dwallet o accedi con email e password di Dwallet.",

@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'none'; form-action 'none'; base-uri 'none'">
+  <meta name="description" content="How Dwallet handles local vaults, account sign-in, encrypted backups, autofill and optional AI extraction.">
+  <title>Dwallet Privacy Policy</title>
+  <link rel="stylesheet" href="style.css?v=12">
+  <link rel="stylesheet" href="privacy.css?v=1">
+  <script type="module" src="privacy.js?v=1"></script>
+</head>
+<body>
+  <a class="skip-link" href="#policy" data-copy="skip">Skip to the policy</a>
+  <main class="policy-page" id="policy">
+    <header><img src="dwallet.svg" alt="" width="45" height="45"><strong>Dwallet</strong>
+      <select id="language" aria-label="Language"><option value="en">English</option><option value="ar">العربية</option><option value="it">Italiano</option></select>
+    </header>
+    <div class="policy-eyebrow" data-copy="eyebrow">YOUR VAULT. YOUR CHOICES.</div>
+    <h1 data-copy="title">Privacy policy</h1>
+    <p class="policy-date"><span data-copy="updated">Last updated:</span> <time datetime="2026-11-18" data-copy="date">18 November 2026</time></p>
+    <p class="policy-intro" data-copy="intro">This policy explains how Dwallet handles information in the Android app and on its account-deletion website. You can use a local vault without creating a Dwallet account.</p>
+    <div class="privacy-summary" aria-label="Privacy overview">
+      <article><span class="summary-mark" aria-hidden="true">01</span><h2 data-copy="summaryLocalTitle">Local by choice</h2><p data-copy="summaryLocal">Signing in does not automatically upload your saved items.</p></article>
+      <article><span class="summary-mark" aria-hidden="true">02</span><h2 data-copy="summaryCloudTitle">Optional cloud backup</h2><p data-copy="summaryCloud">Backups are encrypted, with keys managed by the account service.</p></article>
+      <article><span class="summary-mark" aria-hidden="true">03</span><h2 data-copy="summaryAiTitle">AI needs your approval</h2><p data-copy="summaryAi">Only the content you select is sent for cloud extraction after consent.</p></article>
+    </div>
+    <nav class="policy-nav" aria-label="Policy sections">
+      <a href="#local" data-copy="navLocal">Your vault</a><a href="#cloud" data-copy="navCloud">Cloud &amp; AI</a><a href="#deletion" data-copy="navDelete">Deletion &amp; choices</a><a href="#contact" data-copy="navContact">Contact</a>
+    </nav>
+    <section id="local">
+      <h2 data-copy="localTitle">1. Information on your device</h2>
+      <p data-copy="localBody">Your vault can contain saved sign-ins, payment-card details, notes, images, handwriting, links, folders and groups. Sensitive vault fields are encrypted on the device. Some display and search metadata, such as item labels and saved email addresses, is stored locally. Profile images and layout preferences are also stored locally for the selected vault.</p>
+      <p data-copy="localChoices">Accounts and local vaults are kept separate. Moving a local vault into an account requires your choice. Signing out hides the account vault without deleting its local cache. Local file exports are encrypted with the password you choose; keep that password because an unreadable export cannot be recovered without it.</p>
+    </section>
+    <section id="account">
+      <h2 data-copy="accountTitle">2. Dwallet account information</h2>
+      <p data-copy="accountBody">If you create an account, Supabase provides Dwallet’s authentication and database services. It processes your email address, account identifier, authentication information and service connection data to create, secure and manage your account. With Google sign-in, Google supplies the account information you authorize, such as your email and basic profile. Dwallet does not receive your Google password.</p>
+    </section>
+    <section id="cloud">
+      <h2 data-copy="cloudTitle">3. Optional cloud backups</h2>
+      <p data-copy="cloudBody">When you choose cloud backup, a snapshot of the selected account vault is encrypted and sent to Dwallet’s Supabase service. It includes saved items, their organization and saved app associations. The service stores the encrypted snapshot and backup metadata, such as its size and update time. It can retain the current and previous backup so that you can restore an earlier copy.</p>
+      <p class="policy-callout" data-copy="cloudKeys">Cloud backup keys are managed by the account service. Authorized server infrastructure can access those keys; cloud backups are not end-to-end encrypted. Local-only vault contents are not uploaded merely because you sign in.</p>
+    </section>
+    <section id="ai">
+      <h2 data-copy="aiTitle">4. Optional AI extraction</h2>
+      <p data-copy="aiBody">Cloud extraction sends your selected text, or text recognized locally from your selected image, through Dwallet’s authenticated server to the configured AI provider: Groq and/or Google Gemini. That content can include passwords, email addresses, note text or payment-card details. Original images and unrelated vault or form contents are not included in this extraction request.</p>
+      <p data-copy="aiConsent">You approve cloud extraction before sending. If you explicitly select “Do not show this warning again” and confirm, later extraction requests can use that remembered choice. Cancelling does not send a new request. Already transmitted information cannot be recalled by cancelling afterward. Dwallet’s extraction handler does not deliberately store or log the selected text or returned result, but provider and infrastructure processing follow their applicable terms; this is not a promise of zero retention.</p>
+    </section>
+    <section id="permissions">
+      <h2 data-copy="permissionsTitle">5. Autofill and optional device access</h2>
+      <p data-copy="autofillBody">Android Autofill and the credential chooser use supported field information to offer saved items. Filling protected values requires the configured vault authentication. After you choose an item, the optional Accessibility helper can inspect visible fields and supported screen content, perform supported gestures and complete multi-step filling. It does not submit sign-in or payment forms.</p>
+      <p data-copy="screenBody">In supported payment screens, the Accessibility helper can temporarily capture screen images and recognize text on the device to identify fields or date-picker controls. These helper images are not saved or uploaded by Dwallet. You can disable the helper in Android Accessibility settings.</p>
+      <p data-copy="otherPermissions">Camera or a system photo picker is used when you choose an image. NFC is used when you request supported card scanning. Overlay access can show Dwallet suggestions over other apps. Notifications and background settings support the helper’s visible operation. Clipboard access is used for your explicit copy actions; automatic clearing is best effort and depends on Android restrictions. You control these optional permissions in the app and Android settings.</p>
+    </section>
+    <section id="diagnostics">
+      <h2 data-copy="diagnosticsTitle">6. Diagnostics and service information</h2>
+      <p data-copy="diagnosticsBody">The app uses Google ML Kit for on-device text recognition. ML Kit does not send recognition inputs or outputs to Google, but its SDK can send device and app information, installation identifiers, performance metrics, feature events and error codes for diagnostics and usage analytics. This SDK activity is separate from your vault contents.</p>
+      <p data-copy="serviceBody">Dwallet’s server keeps content-free request counts and temporary coordination data to apply AI limits and protect the service. Authentication and hosting providers can process connection, security and operational information, including IP addresses. This version does not upload a product-analytics inventory of your saved apps, card brands or vault-item counts, and it does not include an advertising SDK.</p>
+    </section>
+    <section id="retention">
+      <h2 data-copy="retentionTitle">7. How long information is kept</h2>
+      <p data-copy="retentionBody">Local items remain until you delete them or erase that local vault. Cloud account information and current/previous backups remain while needed for your account, until replaced or deleted. Account-linked AI request counters are removed on account deletion; older daily counters are cleaned up when later requests run. Hosting, authentication and AI providers may retain their own operational records under their terms. Dwallet does not promise an independently verified fixed retention period for those provider records.</p>
+      <p data-copy="receiptBody">To recognize deletion after a device’s sign-in stops working, the device registers a random proof. The server stores its hash. Once the account is deleted, the receipt keeps a deletion timestamp with the account identifier removed. This opaque receipt record currently has no automatic expiry, so an offline device can later learn that deletion occurred. It contains no email address or vault content.</p>
+    </section>
+    <section id="deletion">
+      <h2 data-copy="deletionTitle">8. Deletion and your choices</h2>
+      <p data-copy="deletionBody">You can request account deletion from your Dwallet account page or the account-deletion website. A confirmed deletion removes the Dwallet account, its cloud backups and account-linked service data. In the app, choose whether to keep this account’s items as a separate local vault or also erase that device’s copy. Other vaults are preserved.</p>
+      <p data-copy="deletionDevices">After website deletion, open Dwallet on each device and connect to the internet. Devices that registered a proof can verify deletion and ask you to keep or erase their local copy. An offline device cannot be erased remotely through this website. An unknown proof or a connection failure does not authorize local erasure. Files you previously exported or shared outside Dwallet are not deleted by account deletion.</p>
+      <p><a class="policy-action" href="./" data-copy="deleteLink">Open account deletion</a></p>
+      <p data-copy="rightsBody">You can edit or delete saved items, export your vault, decline cloud or AI features, and disable optional permissions. Depending on where you live, you may have additional privacy rights. Contact Dwallet to request access, correction or deletion of account information; ownership verification may be needed.</p>
+    </section>
+    <section id="website">
+      <h2 data-copy="websiteTitle">9. Website and service providers</h2>
+      <p data-copy="websiteBody">This website is hosted by GitHub Pages. It uses temporary browser-session storage for Google verification state and removes returned sign-in information from the address bar. Sign-in information is used to verify ownership and carry out your requested account deletion, not to create a new account. Dwallet does not add advertising trackers to this page.</p>
+      <p data-copy="providersIntro">Providers involved in these features have their own terms and privacy information:</p>
+      <ul class="provider-links">
+        <li><a href="https://supabase.com/privacy" rel="noreferrer">Supabase</a></li>
+        <li><a href="https://policies.google.com/privacy" rel="noreferrer">Google</a></li>
+        <li><a href="https://developers.google.com/ml-kit/terms" rel="noreferrer">Google ML Kit</a></li>
+        <li><a href="https://console.groq.com/docs/your-data" rel="noreferrer">GroqCloud</a></li>
+        <li><a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" rel="noreferrer">GitHub</a></li>
+      </ul>
+    </section>
+    <section id="contact">
+      <h2 data-copy="contactTitle">10. Contact and updates</h2>
+      <p data-copy="contactBody">For privacy questions or account-data requests, contact Dwallet at:</p>
+      <p><a id="privacy-contact" class="contact-link" href="mailto:dwallet.support@gmail.com">dwallet.support@gmail.com</a></p>
+      <p data-copy="contactSafety">Do not send your vault PIN, passwords, full card number, security codes or backup-file password with a support request.</p>
+      <p data-copy="updatesBody">We will update this page when the service’s data practices change and show the new date above. Material changes to optional AI disclosure require renewed consent in the app.</p>
+    </section>
+    <footer><a href="./" data-copy="back">Back to Dwallet account deletion</a><span>© Dwallet</span></footer>
+  </main>
+</body>
+</html>

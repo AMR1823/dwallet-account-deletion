@@ -43,4 +43,6 @@ form button:disabled, button.secondary:disabled { opacity: .65; cursor: wait; }
 form .checkbox { display: flex; gap: 10px; align-items: start; line-height: 1.4; }
 input[type=checkbox] { accent-color: #a79aff; width: 18px; height: 18px; flex: none; }
 form button, button.secondary, input, select { font-size: 1rem; }
+.privacy-link { margin-block: 26px 0; text-align: center; }
+.privacy-link a { color: #c1b6ff; text-underline-offset: 4px; }
 

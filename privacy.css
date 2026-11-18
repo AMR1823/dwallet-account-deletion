@@ -1,0 +1,26 @@
+.policy-page { max-width: 860px; }
+.policy-page header { margin-block-end: 38px; }
+.policy-eyebrow { color: #65e8e1; font-size: .72rem; font-weight: 750; letter-spacing: .13em; margin-block-end: 13px; }
+.policy-page h1 { font-size: clamp(32px, 6vw, 48px); letter-spacing: -.035em; }
+.policy-date { font-size: .84rem; color: #a4b1c9; margin: 13px 0 22px; }
+.policy-intro { font-size: 1.06rem; line-height: 1.7; }
+.privacy-summary { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; margin-block: 28px; }
+.privacy-summary article { padding: 18px; border: 1px solid #344361; background: #172239; border-radius: 16px; }
+.summary-mark { display: inline-block; color: #66e3db; font-size: .8rem; font-weight: 700; margin-block-end: 15px; }
+.privacy-summary h2 { font-size: .98rem; line-height: 1.4; margin: 0 0 8px; }
+.privacy-summary p { font-size: .88rem; line-height: 1.55; margin: 0; }
+.policy-nav { display: flex; flex-wrap: wrap; gap: 9px 20px; padding-block: 18px; border-block: 1px solid #344361; }
+.policy-page a { color: #c1b6ff; text-underline-offset: 4px; overflow-wrap: anywhere; }
+.policy-page a:hover { color: #72e9e2; }
+.policy-page section { scroll-margin-block-start: 20px; padding-block-start: 27px; margin-block-start: 27px; }
+.policy-page section h2 { font-size: 1.15rem; line-height: 1.45; margin-block-end: 14px; }
+.policy-page section p { font-size: .95rem; line-height: 1.75; }
+.policy-callout { background: #17283b; border: 1px solid #3c7084; border-inline-start: 3px solid #65e8e1; padding: 17px 18px; border-radius: 12px; }
+.policy-action { display: inline-block; padding: 10px 15px; border: 1px solid #6c6195; border-radius: 9px; font-weight: 650; text-decoration: none; }
+.provider-links { display: flex; flex-wrap: wrap; gap: 10px 23px; list-style: none; padding: 0; line-height: 1.75; font-size: .92rem; }
+.contact-link { direction: ltr; unicode-bidi: isolate; }
+.policy-page footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 18px; border-block-start: 1px solid #344361; margin-block-start: 33px; padding-block-start: 24px; font-size: .84rem; color: #a4b1c9; }
+.skip-link { position: absolute; inset-inline-start: 16px; top: 8px; padding: 10px 14px; background: #172239; color: #eff3ff; transform: translateY(-180%); z-index: 2; }
+.skip-link:focus { transform: translateY(0); }
+@media (max-width: 600px) { .privacy-summary { grid-template-columns: 1fr; } .privacy-summary article { padding: 16px; } .summary-mark { margin-block-end: 8px; } .policy-page header { margin-block-end: 27px; } }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
